@@ -1,0 +1,39 @@
+#include <graphics.h>
+using namespace std;
+
+void lineDDA(int x1, int y1, int x2, int y2) {
+    int xi, yi;
+    xi = x1;
+    yi = y1;
+
+    float dx = x2 - x1;
+    float dy = y2 - y1;
+    int steps = max(abs(dx), abs(dy));
+    float xinc = dx / steps;
+    float yinc = dy / steps;
+
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, NULL);
+    putpixel(round(xi), round(yi), WHITE);
+
+    cout << "Steps\tX\tY\tRound(X)\tRound(Y)\n";
+
+    int tx = 100;
+    int ty = 100;
+    for (int i = 0; i < steps; i++) {
+        cout << i << "\t" << xi << "\t" << yi << "\t" << round(xi) << "\t" << round(yi) << "\n";
+        xi = xi + xinc;
+        yi = yi + yinc;
+
+        putpixel(round(xi), round(yi), WHITE);
+        putpixel(round(xi + tx), round(yi + ty), YELLOW);
+    }
+
+    getch();
+    closegraph();
+}
+
+int main() {
+    lineDDA(100, 100, 300, 300);
+    return 0;
+}

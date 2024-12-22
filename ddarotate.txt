@@ -1,0 +1,63 @@
+#include <iostream>
+#include <graphics.h>
+#include <cmath>
+using namespace std;
+
+// Function to perform 2D rotation
+void rotatePoint(int x, int y, int xc, int yc, float angle, int &xNew, int &yNew) {
+    // Translate the point to the origin
+    int translatedX = x - xc;
+    int translatedY = y - yc;
+
+    // Perform rotation
+    xNew = xc + (translatedX * cos(angle) - translatedY * sin(angle));
+    yNew = yc + (translatedX * sin(angle) + translatedY * cos(angle));
+}
+
+void rotateLine() {
+    int x1, y1, x2, y2, xc, yc;
+    float angle;
+
+    // Input original line coordinates
+    cout << "Enter the starting point of the line (x1, y1): ";
+    cin >> x1 >> y1;
+    cout << "Enter the ending point of the line (x2, y2): ";
+    cin >> x2 >> y2;
+
+    // Input the rotation center
+    cout << "Enter the center of rotation (xc, yc): ";
+    cin >> xc >> yc;
+
+    // Input the rotation angle
+    cout << "Enter the rotation angle (in degrees): ";
+    cin >> angle;
+
+    // Convert the angle to radians for trigonometric functions
+    float angleRad = angle * M_PI / 180;
+
+    // Initialize graphics mode
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, NULL);
+
+    // Draw the original line
+    line(x1, y1, x2, y2);
+    outtextxy(xc, yc, "Center");
+
+    // Perform rotation
+    int x1Rot, y1Rot, x2Rot, y2Rot;
+    rotatePoint(x1, y1, xc, yc, angleRad, x1Rot, y1Rot);
+    rotatePoint(x2, y2, xc, yc, angleRad, x2Rot, y2Rot);
+
+    // Draw the rotated line
+    setcolor(RED);
+    line(x1Rot, y1Rot, x2Rot, y2Rot);
+
+    // Hold the screen
+    getch();
+    closegraph();
+}
+
+int main() {
+    rotateLine();
+    return 0;
+}
